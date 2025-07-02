@@ -68,3 +68,6 @@ Una semana a partir de la fecha de inicio del proyecto.
 - Realiza pruebas frecuentes para asegurar el correcto funcionamiento en cada etapa.
 - Documenta tu código y mantén un registro de los cambios y decisiones de diseño.
 - Considera la usabilidad y la experiencia del usuario, incluso en la versión CLI.
+
+## 🎈 Repositorio de solución
+  - [Solución Taximetro](https://github.com/Factoria-F5-madrid/stn-taximetro)
