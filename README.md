@@ -53,8 +53,6 @@ Desarrollar un programa CLI (Interfaz de Línea de Comandos) en Python.
 
 - Repositorio de GitHub con el código fuente del proyecto.
 - Demostración del CLI desarrollado.
-- Presentación para público no técnico.
-- Presentación técnica del código, destacando fortalezas y debilidades.
 - Enlace al tablero Kanban utilizado para la organización del proyecto.
 
 ## ⏳ Plazo de Entrega
