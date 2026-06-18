@@ -1,7 +1,6 @@
-
 # 🚕 Proyecto Python: Taxímetro Digital
 
-![Banner Proyectos](https://github.com/user-attachments/assets/bc6e34f7-4031-43dd-8cfc-805c935ba3c4)
+<img width="11520" height="3456" alt="Copia de Banner notebooks" src="https://github.com/user-attachments/assets/1c187a02-2294-4f4b-ba84-63766c051a15" />
 
 ## 📝 Descripción del Proyecto
 
