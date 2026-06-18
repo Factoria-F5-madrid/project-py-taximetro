@@ -190,3 +190,6 @@ Cada fase debe entregarse con:
 - [Real Python — pytest](https://realpython.com/pytest-python-testing/)
 - [Real Python — Logging](https://realpython.com/python-logging/)
 - [Conventional Commits](https://www.conventionalcommits.org/es/v1.0.0/) — formato de mensajes de commit
+
+### Solución
+[Solución proyecto](https://github.com/Factoria-F5-madrid/stn-taximetro)
