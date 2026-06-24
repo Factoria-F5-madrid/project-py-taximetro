@@ -13,9 +13,12 @@
 
 ---
 
-> **Proyecto:** `TTX-247` — Modernización del sistema de facturación en flota  
-> **Cliente:** TaxiTech Solutions S.L. *(empresa de gestión de flotas de taxi, Madrid)*  
-> **Equipo asignado:** Backend Squad — Nuevas incorporaciones   
+> **Proyecto:** `TTX-247` — Modernización del sistema de facturación en flota
+
+> **Cliente:** TaxiTech Solutions S.L. *(empresa de gestión de flotas de taxi, Madrid)*
+
+> **Equipo asignado:** Backend Squad — Nuevas incorporaciones
+
 > **Deadline:** Una semana a partir de la fecha de inicio del proyecto.
 
 ---
@@ -32,7 +35,7 @@ Tu equipo ha sido asignado para desarrollar el prototipo.
 
 ## 🗣️ Briefing del Cliente
 
-> *"Necesitamos algo que los taxistas puedan arrancar al inicio del turno y que calcule lo que le cuesta al pasajero en tiempo real. Cuando el taxi está parado en un semáforo, el contador sigue corriendo pero más despacio. En marcha, corre más rápido. Al llegar al destino, el taxista pulsa un botón, sale el total, y listo. Nos gustaría también poder ver un histórico de carreras del día. Si puede tener contraseña para que no lo toquen los pasajeros, mejor. Y si en el futuro se puede ver desde el móvil o una tablet en el taxi, perfecto."*  
+> *"Necesitamos algo que los taxistas puedan arrancar al inicio del turno y que calcule lo que le cuesta al pasajero en tiempo real. Cuando el taxi está parado en un semáforo, el contador sigue corriendo pero más despacio. En marcha, corre más rápido. Al llegar al destino, el taxista pulsa un botón, sale el total, y listo. Nos gustaría también poder ver un histórico de carreras del día. Si puede tener contraseña para que no lo toquen los pasajeros, mejor. Y si en el futuro se puede ver desde el móvil o una tablet en el taxi, perfecto."*
 > — Director de Operaciones, TaxiTech Solutions
 
 **Tarifas vigentes (Zona EMT Madrid, junio 2025):**
@@ -63,104 +66,73 @@ El equipo de producto ha desglosado el briefing en las siguientes historias. Est
 
 El proyecto se divide en **4 fases incrementales**. Cada fase es un entregable autónomo y funcional.
 
+---
+
 ### 🟢 Fase 1 — MVP Funcional (US-01 a US-04)
 
-**Objetivo:** demostrar al cliente que el concepto funciona. CLI mínimo que cubra el flujo completo de una carrera.
+El primer entregable es un CLI operativo que cubra el flujo completo de una carrera. El cliente necesita validar la lógica de tarifas antes de avanzar con cualquier otra funcionalidad.
 
-Requisitos técnicos:
-- Programa Python ejecutable desde terminal
-- Mensaje de bienvenida con instrucciones de uso al arrancar
-- Comando para iniciar carrera
-- Comandos para cambiar entre estado `parado` y `en movimiento`
-- Acumulación correcta de tarifa según el estado y el tiempo transcurrido
-- Comando para finalizar la carrera y mostrar el total con 2 decimales
-- Posibilidad de iniciar una nueva carrera sin cerrar el proceso
+El sistema debe arrancar desde terminal, presentar las instrucciones de uso, y permitir al conductor gestionar el estado del vehículo mediante comandos de teclado. La tarifa se acumula de forma continua en función del estado activo y el tiempo transcurrido. Al finalizar la carrera, el importe total se muestra en euros con dos decimales. El proceso no debe cerrarse entre carreras: el conductor necesita encadenar servicios sin interrupciones.
 
-**Criterios de aceptación (definidos con el cliente):**
-- [ ] `python taximetro.py` arranca sin errores en Python 3.10+
-- [ ] El total acumulado es correcto: parado 10s → `0.20€`, movimiento 10s → `0.50€`
-- [ ] El programa no termina al finalizar una carrera; pregunta si iniciar otra
+**Requisitos funcionales:**
+
+- Al arrancar, el sistema debe explicar al conductor cómo usarlo sin necesidad de documentación externa
+- El conductor debe poder indicar en cada momento si el vehículo está parado o en movimiento
+- El importe se acumula de forma continua según el estado activo y el tiempo transcurrido, aplicando la tarifa correspondiente en cada tramo
+- Al cerrar la carrera, el sistema muestra el importe total a cobrar
+- El sistema debe permitir encadenar carreras de forma inmediata, sin interrupciones entre servicios
 
 ---
 
 ### 🟡 Fase 2 — Observabilidad y Persistencia (US-05, US-06, US-07)
 
-**Objetivo:** que el sistema sea mantenible y no pierda datos entre sesiones.
+El cliente ha solicitado que el sistema sea auditable y que los datos sobrevivan al cierre de la aplicación. Esta fase añade trazabilidad operativa y persistencia de negocio.
 
-Requisitos técnicos:
-- **Logging** estructurado con la librería estándar `logging`:
-  - Niveles: `DEBUG` (cálculos internos), `INFO` (eventos de carrera), `WARNING/ERROR` (entradas inválidas)
-  - Salida simultánea a consola y a fichero `taximetro.log`
-- **Tests unitarios** con `pytest` o `unittest` (cobertura mínima de la lógica de tarifas)
-- **Historial de carreras** persistido en `historial.csv` con columnas: `inicio`, `fin`, `duración_s`, `total_eur`
-- **Configuración de tarifas** externalizada en `config.json` — modificable sin tocar el código
+El sistema debe registrar todos los eventos relevantes —arranque, cambios de estado, cierre de carrera, errores— en un log estructurado accesible para el equipo técnico. El historial de carreras debe escribirse en disco de forma incremental y estar disponible en la siguiente sesión sin intervención manual. Las tarifas deben poder modificarse mediante un fichero de configuración externo, sin necesidad de tocar el código ni redeployar.
 
-**Criterios de aceptación:**
-- [ ] `pytest` pasa en verde con al menos 4 tests
-- [ ] Tras cerrar y reabrir el programa, el historial sigue presente
-- [ ] Cambiar `config.json` y reiniciar el programa aplica las nuevas tarifas
-- [ ] El fichero `.log` recoge todos los eventos relevantes con timestamp
+**Requisitos funcionales:**
+
+- El sistema debe registrar en todo momento qué está ocurriendo: arranque, cambios de estado del vehículo, cierre de carrera y cualquier error. Ese registro debe ser accesible para el equipo técnico sin necesidad de intervenir en el proceso en ejecución
+- Al finalizar cada carrera, los datos relevantes —fecha, duración e importe— deben quedar guardados de forma permanente y estar disponibles en sesiones posteriores sin ninguna acción manual
+- Las tarifas deben poder actualizarse sin modificar el código ni redeployar la aplicación
+- La lógica de cálculo de tarifas debe estar cubierta por tests automatizados
 
 ---
 
 ### 🟠 Fase 3 — Arquitectura y Experiencia de Usuario (US-08, US-09)
 
-**Objetivo:** código mantenible a largo plazo y primera versión con interfaz visual.
+Con el MVP validado, el cliente quiere una versión del sistema que pueda mantenerse a largo plazo y que resulte usable para conductores con poca experiencia técnica. Esta fase implica una refactorización estructural y la incorporación de una interfaz gráfica.
 
-Requisitos técnicos:
-- **Refactorización a OOP**: al menos las clases `Taximetro`, `Trayecto` y `Tarifa` con responsabilidades bien separadas (principio SRP)
-- **Autenticación**: pantalla de login con contraseña almacenada como hash (SHA-256 mínimo, bcrypt recomendado). Nunca texto plano
-- **Interfaz gráfica** con `tkinter` (incluido en stdlib) o `PyQt5`:
-  - Contador de euros en tiempo real (actualización ≤ 500ms)
-  - Botones de acción grandes y visibles
-  - Indicador de estado claro (parado / en movimiento)
+El código debe reorganizarse bajo un modelo orientado a objetos con responsabilidades claramente delimitadas entre componentes. El acceso al sistema debe protegerse mediante autenticación por contraseña, almacenada de forma segura. La interfaz gráfica debe ser funcional en una tablet montada en el vehículo: botones grandes, estado visible de un vistazo y contador actualizado en tiempo real sin que la interfaz se bloquee.
 
-**Criterios de aceptación:**
-- [ ] La GUI no se congela al actualizar el contador (sin `time.sleep` en el hilo principal)
-- [ ] La contraseña hasheada se guarda en disco; al reiniciar, se pide de nuevo
-- [ ] Un revisor de código puede entender la responsabilidad de cada clase sin explicación
+**Requisitos funcionales:**
+
+- El código debe estar organizado de forma que cada componente tenga una responsabilidad clara y pueda modificarse o sustituirse sin afectar al resto del sistema
+- El acceso a la aplicación debe estar protegido por contraseña. Las credenciales deben almacenarse de forma segura: ningún valor sensible puede guardarse en texto plano
+- La interfaz gráfica debe ser funcional en una tablet montada en el vehículo: estado del taxi visible de un vistazo, importe actualizado en tiempo real e interacción táctil cómoda. La interfaz no debe bloquearse en ningún momento durante el uso
 
 ---
 
-### 🔴 Fase 4 — Versión de Producción (US-10 + infraestructura)
+### 🔴 Fase 4 — Versión de Producción
 
-**Objetivo:** entregable listo para desplegarse en los vehículos de la flota.
+Esta fase convierte el prototipo en un sistema desplegable. El cliente quiere poder instalar la aplicación en los vehículos de la flota sin dependencias manuales, y acceder al historial de operaciones desde cualquier dispositivo conectado a la red del taxi.
 
-Requisitos técnicos:
-- **Base de datos**: migración del historial CSV a `SQLite` usando `SQLAlchemy` como ORM
-- **API REST** con Flask o Django REST Framework:
-  - `POST /api/trayectos` — iniciar carrera
-  - `PUT /api/trayectos/:id` — cambiar estado / finalizar
-  - `GET /api/trayectos` — listar historial
-- **Panel web** accesible desde navegador (puede ser HTML estático + fetch a la API)
-- **Dockerización**: `Dockerfile` + `docker-compose.yml`; la app debe levantar con `docker-compose up` sin configuración adicional
+El historial migra de fichero plano a base de datos relacional. La lógica de negocio se expone mediante una API REST que puede ser consumida tanto por la interfaz web incluida como por integraciones futuras. El sistema completo debe poder desplegarse con un único comando.
 
-**Criterios de aceptación:**
-- [ ] `docker-compose up` levanta la app y es accesible en `http://localhost:5000`
-- [ ] La API devuelve JSON válido con código HTTP correcto (200, 201, 404...)
-- [ ] El historial sobrevive a un `docker-compose down && docker-compose up` (volumen persistente)
+**Requisitos funcionales:**
+
+- El historial de carreras debe almacenarse en una base de datos que garantice integridad y permita consultas estructuradas
+- La lógica de negocio debe exponerse a través de una API que permita iniciar carreras, cambiar su estado, finalizarlas y consultar el historial. Esta API debe poder ser consumida por cualquier cliente web o móvil en el futuro
+- El sistema debe incluir un panel web accesible desde el navegador para que el responsable de flota pueda consultar el historial sin instalar nada
+- El despliegue debe poder realizarse con un único comando, sin configuración manual del entorno. Los datos deben sobrevivir a reinicios del sistema
 
 ---
 
-## 🛠️ Stack Técnico
+## 🛠️ Restricciones Técnicas
 
-```
-Fase 1   Python 3.10+  ·  Git
-Fase 2   logging  ·  pytest  ·  csv  ·  json
-Fase 3   OOP  ·  bcrypt  ·  tkinter / PyQt5
-Fase 4   SQLite  ·  SQLAlchemy  ·  Flask  ·  Docker
-```
+El lenguaje de desarrollo es **Python**. Más allá de eso, la elección de librerías, frameworks y herramientas queda en manos del equipo, que deberá justificar sus decisiones técnicas en la documentación del proyecto.
 
-Gestión del proyecto: **Github Projects** (tablero Kanban, una columna por fase)
-
----
-
-Convención de ramas:
-```
-main          → código estable, entregable al cliente
-dev           → integración continua del equipo
-feature/us-01 → una rama por historia de usuario
-```
+Se requiere control de versiones con **Git y GitHub** desde el inicio. La gestión de tareas debe ser visible en un tablero **GitHub Projects** con una columna por fase.
 
 ---
 
@@ -168,26 +140,23 @@ feature/us-01 → una rama por historia de usuario
 
 Cada fase debe entregarse con:
 
-1. Repositorio de GitHub con el código fuente del proyecto.
-2. **Demo** en directo
-3. **Enlace al tablero Kanban** actualizado
+1. Repositorio de GitHub con el código fuente del proyecto
+2. Demo en directo
+3. Enlace al tablero Kanban actualizado
 
 ---
 
 ## 📚 Recursos
 
-### Documentación oficial
+### Documentación oficial de Python
 - [`time` — Python stdlib](https://docs.python.org/3/library/time.html)
 - [`logging` — Python stdlib](https://docs.python.org/3/library/logging.html)
 - [`unittest` — Python stdlib](https://docs.python.org/3/library/unittest.html)
 - [`tkinter` — GUI básica](https://docs.python.org/3/library/tkinter.html)
-- [Flask Quickstart](https://flask.palletsprojects.com/en/3.0.x/quickstart/)
-- [SQLAlchemy ORM Tutorial](https://docs.sqlalchemy.org/en/20/orm/quickstart.html)
-- [Docker — Get Started](https://docs.docker.com/get-started/)
 
 ### Guías de referencia
 - [Real Python — OOP en Python](https://realpython.com/python3-object-oriented-programming/)
-- [Real Python — pytest](https://realpython.com/pytest-python-testing/)
+- [Real Python — Testing](https://realpython.com/pytest-python-testing/)
 - [Real Python — Logging](https://realpython.com/python-logging/)
 - [Conventional Commits](https://www.conventionalcommits.org/es/v1.0.0/) — formato de mensajes de commit
 
