@@ -59,11 +59,11 @@ def ejecutar() -> None:
                 print("No hay ninguna carrera en curso.")
             else:
                 finalizar_carrera(carrera)
-                break
+                carrera = None
 
         elif comando == "s":
             print("Hasta luego.")
             break
 
         else:
-            print("Comando no reconocido. Escribe i, p, m o s.")
+            print("Comando no reconocido. Escribe i, p, m, f o s.")
