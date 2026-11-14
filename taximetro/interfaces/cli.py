@@ -3,30 +3,30 @@ import time
 from taximetro.carrera import Carrera
 from taximetro.tarifas import ESTADO_MOVIMIENTO, ESTADO_PARADO
 
-
 def mostrar_instrucciones() -> None:
     print("=== TAXIMETRO DIGITAL ===")
     print("Comandos:")
     print("  i -> iniciar una carrera")
     print("  p -> pasar a parado")
     print("  m -> pasar a movimiento")
+    print("  f -> finalizar la carrera")
     print("  s -> salir del programa")
-
 
 def pedir_comando() -> str:
     return input("> ").strip().lower()
-
 
 def iniciar_carrera() -> Carrera:
     carrera = Carrera(time.time())
     print("Carrera iniciada.")
     return carrera
 
-
 def cambiar_estado(carrera: Carrera, estado: str) -> None:
     carrera.cambiar_estado(estado, time.time())
     print("Estado: " + estado)
 
+def finalizar_carrera(carrera: Carrera) -> None:
+    total = carrera.finalizar(time.time())
+    print(f"Total a cobrar: {total:.2f} €")
 
 def ejecutar() -> None:
     mostrar_instrucciones()
@@ -53,6 +53,13 @@ def ejecutar() -> None:
                 print("No hay ninguna carrera en curso.")
             else:
                 cambiar_estado(carrera, ESTADO_MOVIMIENTO)
+
+        elif comando == "f":
+            if carrera is None:
+                print("No hay ninguna carrera en curso.")
+            else:
+                finalizar_carrera(carrera)
+                break
 
         elif comando == "s":
             print("Hasta luego.")
