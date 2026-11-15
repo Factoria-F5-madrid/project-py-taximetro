@@ -1,8 +1,11 @@
 
-async function loadDashboard() {
+async function loadDashboard(day = "") {
     try {
-        // Get trip history from Flask API
-        const tripsResponse = await fetch("/trips");
+        // Build the API URLs
+        const query = day ? `?day=${day}` : "";
+
+        // Get trip history
+        const tripsResponse = await fetch(`/trips${query}`);
 
         if (!tripsResponse.ok) {
             throw new Error("Failed to load trips");
@@ -11,7 +14,7 @@ async function loadDashboard() {
         const trips = await tripsResponse.json();
 
         // Get dashboard summary
-        const summaryResponse = await fetch("/trips/summary");
+        const summaryResponse = await fetch(`/trips/summary${query}`);
 
         if (!summaryResponse.ok) {
             throw new Error("Failed to load summary");
@@ -33,7 +36,7 @@ async function loadDashboard() {
         if (trips.length === 0) {
             tripList.innerHTML = `
                 <tr>
-                    <td colspan="3">No trips recorded yet.</td>
+                    <td colspan="3">No trips recorded for this date.</td>
                 </tr>
             `;
             return;
@@ -64,5 +67,31 @@ async function loadDashboard() {
     }
 }
 
-// Load dashboard when page is ready
-document.addEventListener("DOMContentLoaded", loadDashboard);
+// Set up date filter buttons
+document.addEventListener("DOMContentLoaded", () => {
+
+    // Load all trips when dashboard opens
+    loadDashboard();
+
+    const dateInput = document.getElementById("filter-date");
+    const applyButton = document.getElementById("apply-filter");
+    const clearButton = document.getElementById("clear-filter");
+
+    // Apply selected date
+    applyButton.addEventListener("click", () => {
+        const selectedDate = dateInput.value;
+
+        if (!selectedDate) {
+            alert("Please select a date first.");
+            return;
+        }
+
+        loadDashboard(selectedDate);
+    });
+
+    // Clear date filter
+    clearButton.addEventListener("click", () => {
+        dateInput.value = "";
+        loadDashboard();
+    });
+});

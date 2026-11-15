@@ -55,6 +55,52 @@ header h1 {
     color: #0f766e;
 }
 
+.date-filter {
+    background: white;
+    padding: 25px;
+    margin-bottom: 35px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.date-filter h2 {
+    margin-bottom: 20px;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-controls input,
+.filter-controls button {
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.filter-controls button {
+    background: #0f766e;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.filter-controls button:hover {
+    background: #115e59;
+}
+
+#clear-filter {
+    background: #64748b;
+}
+
+#clear-filter:hover {
+    background: #475569;
+}
+
 .history {
     background: white;
     padding: 25px;
