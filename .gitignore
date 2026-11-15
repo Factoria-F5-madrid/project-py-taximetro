@@ -2,5 +2,5 @@ taximeter.log
 trips.json
 __pycache__/
 auth.json
+taximeter.db
 .venv/
-*.db

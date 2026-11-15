@@ -1,31 +1,37 @@
 from flask import Flask, jsonify, request
 
-app = Flask(__name__)
+from database import TripDatabase
 
-# Sample data or basic route for your taxi meter API
-@app.route('/')
-def home():
-    return jsonify({
-        "message": "Welcome to the Taximetro API!",
-        "status": "running"
-    })
 
-# Example endpoint for calculating fare or receiving taximeter data
-@app.route('/calculate', methods=['POST'])
-def calculate_fare():
-    data = request.get_json()
-    
-    # Simple placeholder logic for distance / fare
-    distance = data.get('distance_km', 0.0)
-    base_fare = 5.00
-    per_km_rate = 2.50
-    
-    total_fare = base_fare + (distance * per_km_rate)
-    
-    return jsonify({
-        "distance_km": distance,
-        "total_fare": round(total_fare, 2)
-    })
+def create_app(db_path="taximeter.db"):
+    """Build the Flask app. The database path is a parameter so tests can use a temporary file."""
+    app = Flask(__name__)
+    database = TripDatabase(db_path)
 
-if __name__ == '__main__':
+    @app.get("/health")
+    def health():
+        return jsonify({"status": "ok"})
+
+    @app.get("/trips")
+    def list_trips():
+        day = request.args.get("day")
+        if day is None:
+            trips = database.load()
+        else:
+            trips = database.trips_for_day(day)
+        return jsonify(trips)
+
+    @app.get("/trips/summary")
+    def summary():
+        day = request.args.get("day")
+        trips = database.load() if day is None else database.trips_for_day(day)
+        total = TripDatabase.total_of(trips)
+        return jsonify({"count": len(trips), "total_eur": round(total, 2)})
+
+    return app
+
+
+app = create_app()
+
+if __name__ == "__main__":
     app.run(debug=True, port=5000)

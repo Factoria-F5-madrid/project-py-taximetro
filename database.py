@@ -1,4 +1,5 @@
 import sqlite3
+from contextlib import contextmanager
 from datetime import datetime
 
 
@@ -9,10 +10,18 @@ class TripDatabase:
         self.db_path = db_path
         self._init_db()
 
+    @contextmanager
     def _connect(self):
         connection = sqlite3.connect(self.db_path)
         connection.row_factory = sqlite3.Row
-        return connection
+        try:
+            yield connection
+            connection.commit()
+        except Exception:
+            connection.rollback()
+            raise
+        finally:
+            connection.close()
 
     def _init_db(self):
         """Create the trips table if it does not already exist."""
@@ -71,8 +80,3 @@ class TripDatabase:
                 (day + "%",),
             ).fetchall()
         return [dict(row) for row in rows]
-
-    @staticmethod
-    def total_of(trips):
-        """Return the sum of the totals of a list of saved trips."""
-        return sum(t["total_eur"] for t in trips)
