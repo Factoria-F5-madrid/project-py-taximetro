@@ -3,6 +3,7 @@ import time
 from taximetro.carrera import Carrera
 from taximetro.tarifas import ESTADO_MOVIMIENTO, ESTADO_PARADO
 
+
 def mostrar_instrucciones() -> None:
     print("=== TAXIMETRO DIGITAL ===")
     print("Comandos:")

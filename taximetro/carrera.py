@@ -1,5 +1,6 @@
 from taximetro.tarifas import ESTADO_PARADO, calcular_tramo
 
+
 class Carrera:
     def __init__(self, hora_inicio: float) -> None:
         self.hora_inicio = hora_inicio
@@ -13,11 +14,9 @@ class Carrera:
         self.hora_ultimo_cambio = ahora
 
     def cambiar_estado(self, nuevo_estado: str, ahora: float) -> None:
-        segundos = ahora - self.hora_ultimo_cambio
-        self.importe += calcular_tramo(self.estado, segundos)
+        self.cerrar_tramo(ahora)
         self.estado = nuevo_estado
-        self.hora_ultimo_cambio = ahora
 
     def finalizar(self, ahora: float) -> float:
         self.cerrar_tramo(ahora)
-        return self.importe  
+        return self.importe
