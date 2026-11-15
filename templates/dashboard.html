@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaxiTech Solutions | Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>🚕 TaxiTech Solutions</h1>
+        <p>Digital Taxi Meter Dashboard</p>
+    </header>
+
+    <main class="dashboard">
+
+        <section class="summary">
+            <div class="card">
+                <h2>Total Trips</h2>
+                <p id="trip-count">0</p>
+            </div>
+
+            <div class="card">
+                <h2>Total Earnings</h2>
+                <p id="total-earnings">€0.00</p>
+            </div>
+        </section>
+
+        <section class="history">
+            <h2>Trip History</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Fare (€)</th>
+                    </tr>
+                </thead>
+
+                <tbody id="trip-list">
+                    <tr>
+                        <td colspan="3">Loading trips...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+</html>

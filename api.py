@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 from database import TripDatabase
 
@@ -7,6 +7,10 @@ def create_app(db_path="taximeter.db"):
     """Build the Flask app. The database path is a parameter so tests can use a temporary file."""
     app = Flask(__name__)
     database = TripDatabase(db_path)
+    
+    @app.get("/")
+    def dashboard():
+        return render_template("dashboard.html")
 
     @app.get("/health")
     def health():
@@ -34,4 +38,4 @@ def create_app(db_path="taximeter.db"):
 app = create_app()
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)
