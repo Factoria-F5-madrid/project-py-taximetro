@@ -4,17 +4,27 @@ import unittest
 from pathlib import Path
 
 from api import create_app
+from auth import Auth
 
 
 class TestAPI(unittest.TestCase):
 
     def setUp(self):
         self.temp_dir = tempfile.TemporaryDirectory()
-        db_path = str(Path(self.temp_dir.name) / "test.db")
 
-        app = create_app(db_path)
+        db_path = str(Path(self.temp_dir.name) / "test.db")
+        auth_path = str(Path(self.temp_dir.name) / "auth.json")
+
+        Auth(auth_path).set_password("testpassword")
+
+        app = create_app(db_path, auth_path)
         app.config["TESTING"] = True
+        app.config["WTF_CSRF_ENABLED"] = False
+
         self.client = app.test_client()
+
+        with self.client.session_transaction() as session:
+            session["logged_in"] = True
 
     def tearDown(self):
         self.temp_dir.cleanup()
@@ -78,6 +88,44 @@ class TestAPI(unittest.TestCase):
             "/trips/state", json={"state": "moving"}
         )
         self.assertEqual(response.status_code, 404)
+
+    def test_login_success(self):
+        with self.client.session_transaction() as session:
+            session.clear()
+
+        response = self.client.post(
+            "/login", data={"password": "testpassword"}
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.location, "/")
+
+    def test_login_invalid_password(self):
+        with self.client.session_transaction() as session:
+            session.clear()
+
+        response = self.client.post(
+            "/login", data={"password": "wrongpassword"}
+        )
+
+        self.assertEqual(response.status_code, 401)
+
+    def test_protected_endpoint_requires_login(self):
+        with self.client.session_transaction() as session:
+            session.clear()
+
+        response = self.client.get("/trips")
+
+        self.assertEqual(response.status_code, 401)
+
+    def test_logout(self):
+        response = self.client.post("/logout")
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.location, "/login")
+
+        response = self.client.get("/trips")
+        self.assertEqual(response.status_code, 401)
 
 
 if __name__ == "__main__":
