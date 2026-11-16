@@ -4,3 +4,4 @@ __pycache__/
 auth.json
 taximeter.db
 .venv/
+.secret_key

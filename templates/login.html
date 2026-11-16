@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaxiTech Solutions | Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="login-page">
+
+    <header>
+        <h1>🚕 TaxiTech Solutions</h1>
+        <p>Digital Taxi Meter Dashboard</p>
+    </header>
+
+    <main class="login-container">
+        <section class="login-card">
+            <h2>Welcome Back</h2>
+            <p>Please enter your password to access the dashboard.</p>
+
+            {% if error %}
+                <p class="login-error">{{ error }}</p>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('login') }}">
+                {{ form.hidden_tag() }}
+
+                <label for="password">Password</label>
+                {{ form.password(id="password", class="login-input", autofocus=true) }}
+
+                <button type="submit" class="login-button">Log In</button>
+            </form>
+        </section>
+    </main>
+
+</body>
+</html>

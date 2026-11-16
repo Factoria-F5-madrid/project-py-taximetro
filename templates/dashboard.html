@@ -14,6 +14,11 @@
     <header>
         <h1>🚕 TaxiTech Solutions</h1>
         <p>Digital Taxi Meter Dashboard</p>
+
+        <form method="POST" action="{{ url_for('logout') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit">Log Out</button>
+        </form>
     </header>
 
     <main class="dashboard">
