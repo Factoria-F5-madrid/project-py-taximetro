@@ -1,164 +1,346 @@
-<img width="11520" height="3456" alt="Copia de Banner notebooks" src="https://github.com/user-attachments/assets/1c187a02-2294-4f4b-ba84-63766c051a15" />
+# TaxiTech Solutions 🚖
 
-# 🚕 TaxiTech Solutions — Sistema de Taxímetro Digital
+**Proyecto:** TTX-247  
+**Desarrollo:** Taxímetro digital para flota de taxis  
+**Ubicación:** Madrid, España
 
-<div align="center">
-
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
-![Estado](https://img.shields.io/badge/Estado-En%20desarrollo-yellow)
-![Sprint](https://img.shields.io/badge/Sprint-1-orange)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Estado](https://img.shields.io/badge/Estado-Fase%202%20completada-brightgreen)
+![Fases](https://img.shields.io/badge/Fases-1%20y%202-success)
 ![Prioridad](https://img.shields.io/badge/Prioridad-Alta-red)
 
-</div>
+## 1. Contexto del proyecto
+
+TaxiTech Solutions es una empresa de transporte urbano que necesita modernizar el sistema de tarificación de su flota de taxis en Madrid.
+
+Actualmente, la empresa utiliza un sistema de taxímetro que necesita mejoras en su funcionamiento, mantenimiento y capacidad de supervisión.
+
+El objetivo del proyecto es desarrollar una aplicación de taxímetro digital en Python que permita calcular automáticamente el coste de cada carrera, registrar los servicios realizados y facilitar el mantenimiento del sistema.
+
+El desarrollo se organiza en diferentes fases, comenzando por un MVP funcional de consola y evolucionando hacia una solución más completa.
+
+### Tarifas oficiales de referencia
+
+Zona EMT Madrid, junio de 2025:
+
+| Estado del vehículo | Tarifa |
+|---|---:|
+| Parado o velocidad inferior a 20 km/h | 0,02 €/segundo |
+| En movimiento | 0,05 €/segundo |
+
+### Necesidad del cliente
+
+El sistema debe permitir iniciar y finalizar carreras, cambiar entre los estados de parado y movimiento y calcular automáticamente el importe correspondiente.
+
+Además, debe facilitar la consulta del historial de servicios, conservar los datos entre ejecuciones y registrar eventos para facilitar el diagnóstico de posibles incidencias.
+
+## 2. Historias de usuario
+
+### Funcionalidades principales
+
+| ID | Historia de usuario | Prioridad |
+|---|---|---|
+| US-01 | Como taxista, quiero iniciar una carrera con un comando para comenzar a cobrar al pasajero. | Must |
+| US-02 | Como taxista, quiero cambiar el estado del vehículo entre parado y movimiento para aplicar la tarifa correspondiente. | Must |
+| US-03 | Como taxista, quiero finalizar una carrera y visualizar el importe total en euros. | Must |
+| US-04 | Como taxista, quiero iniciar una nueva carrera sin cerrar el programa. | Must |
+
+### Funcionalidades adicionales
+
+| ID | Historia de usuario | Prioridad |
+|---|---|---|
+| US-05 | Como gestor de flota, quiero consultar el historial diario de carreras para realizar la conciliación de caja. | Should |
+| US-06 | Como técnico, quiero disponer de registros de operación para diagnosticar errores. | Should |
+| US-07 | Como técnico, quiero modificar las tarifas mediante un archivo de configuración sin necesidad de volver a desplegar la aplicación. | Should |
+| US-08 | Como gestor, quiero proteger el acceso mediante contraseña. | Could |
+| US-09 | Como taxista, quiero disponer de una interfaz visual con botones grandes para utilizarla desde una tablet o dispositivo móvil. | Could |
+
+## 3. Plan de desarrollo por fases
+
+### Fase 1. MVP funcional
+
+**Objetivo:** desarrollar una primera versión operativa del taxímetro mediante una interfaz de consola.
+
+Funcionalidades:
+- Inicio de una carrera mediante un comando.
+- Cálculo continuo del importe.
+- Cambio entre estado parado y movimiento.
+- Aplicación automática de las tarifas correspondientes.
+- Finalización de la carrera y visualización del importe.
+- Posibilidad de encadenar varias carreras sin cerrar el programa.
+
+**Estado:** completada.
+
+### Fase 2. Observabilidad y persistencia
+
+**Objetivo:** mejorar la capacidad de supervisión y conservación de información del sistema.
+
+Funcionalidades:
+- Registro de eventos relevantes mediante logs estructurados.
+- Registro del inicio y finalización del programa.
+- Registro de cambios de estado y finalización de carreras.
+- Registro de errores para facilitar el diagnóstico.
+- Persistencia del historial de carreras en disco.
+- Conservación de fecha, duración e importe de cada servicio.
+- Consulta del historial diario y del total recaudado.
+- Configuración externa de las tarifas mediante un archivo JSON.
+- Pruebas automatizadas del cálculo y de las funcionalidades principales.
+
+**Estado:** implementada y verificada mediante pruebas automatizadas.
+
+### Fase 3. Programación orientada a objetos y experiencia de usuario
+
+**Objetivo:** mejorar la organización interna y la experiencia de utilización.
+
+Funcionalidades previstas:
+- Separación de responsabilidades y refactorización de la arquitectura.
+- Protección mediante contraseña.
+- Interfaz gráfica con botones grandes.
+- Adaptación de la experiencia de usuario para tablets y dispositivos móviles.
+
+**Estado:** pendiente.
+
+### Fase 4. Preparación para producción
+
+**Objetivo:** evolucionar hacia una solución preparada para un entorno de producción.
+
+Funcionalidades previstas:
+- Integración con una base de datos relacional.
+- Desarrollo de una API REST.
+- Panel web de administración.
+- Despliegue mediante un único comando.
+
+**Estado:** pendiente.
+
+## 4. Instalación y ejecución
+
+### Requisitos
+
+- Python 3.10 o superior.
+- Git.
+- Visual Studio Code (recomendado).
+
+El proyecto utiliza actualmente la biblioteca estándar de Python, por lo que no necesita instalar dependencias externas.
+
+### Clonar el repositorio
+
+```bash
+git clone https://github.com/superkaiker/project-py-taximetro.git
+cd project-py-taximetro
+```
+
+### Crear el entorno virtual
+
+En Windows PowerShell:
+
+```powershell
+python -m venv .venv
+```
+
+### Activar el entorno virtual
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+### Ejecutar la aplicación
+
+```powershell
+python .\taximeter.py
+```
+
+## 5. Uso de la aplicación
+
+La aplicación dispone de una interfaz de consola interactiva.
+
+### Comandos disponibles
+
+| Comando | Descripción |
+|---|---|
+| `iniciar` | Inicia una nueva carrera. |
+| `mover` | Cambia el estado del vehículo a movimiento. |
+| `parar` | Cambia el estado del vehículo a parado. |
+| `finalizar` | Finaliza la carrera y muestra el importe total. |
+| `historial` | Muestra las carreras del día y el total recaudado. |
+| `ayuda` | Muestra los comandos disponibles. |
+| `salir` | Finaliza la aplicación. |
+
+### Ejemplo de utilización
+
+```text
+> iniciar
+Carrera iniciada.
+
+> mover
+Vehículo en movimiento.
+
+> parar
+Vehículo parado.
+
+> mover
+Vehículo en movimiento.
+
+> finalizar
+Carrera finalizada.
+Importe total: X.XX €
+
+> historial
+Historial de carreras de hoy:
+...
+Total recaudado: X.XX €
+```
+
+Los importes del ejemplo son ilustrativos. El resultado real depende de la duración de cada estado.
+
+## 6. Configuración de tarifas
+
+Las tarifas se encuentran en el archivo `config.json`, situado en la raíz del proyecto.
+
+Contenido actual:
+
+```json
+{
+    "tarifa_parado": 0.02,
+    "tarifa_movimiento": 0.05
+}
+```
+
+Las cantidades representan euros por segundo.
+
+Para modificar las tarifas basta con editar los valores del archivo de configuración. La aplicación carga la configuración al iniciarse, sin necesidad de modificar el código fuente.
+
+## 7. Persistencia de datos
+
+El sistema conserva el historial de carreras finalizadas en:
+
+```text
+data/historial.json
+```
+
+Cada carrera almacena información como:
+- Fecha y hora de finalización o registro.
+- Duración de la carrera.
+- Importe total.
+
+Los datos se guardan en disco de forma incremental y permanecen disponibles después de cerrar y volver a ejecutar el programa.
+
+El directorio `data/` se crea automáticamente cuando es necesario.
+
+## 8. Sistema de logs
+
+Los registros de operación se almacenan en:
+
+```text
+logs/taximetro.log
+```
+
+El sistema utiliza registros estructurados en formato JSON para facilitar su lectura y posterior procesamiento.
+
+Los eventos registrados incluyen:
+- Inicio y finalización del programa.
+- Carga de tarifas.
+- Cambios de estado del vehículo.
+- Finalización de carreras.
+- Errores e incidencias.
+
+Ejemplo de registro:
+
+```json
+{
+    "fecha": "2026-11-16 09:40:17",
+    "nivel": "INFO",
+    "evento": "Programa iniciado"
+}
+```
+
+El archivo puede consultarse externamente mientras el programa está en funcionamiento.
+
+El directorio `logs/` se crea automáticamente.
+
+## 9. Pruebas automatizadas
+
+El proyecto incluye pruebas automatizadas mediante `unittest`, la biblioteca de pruebas integrada en Python.
+
+Para ejecutar la batería completa:
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+Para comprobar la sintaxis del programa:
+
+```powershell
+python -m py_compile .\taximeter.py
+```
+
+**Estado de las pruebas:** 12 pruebas superadas.
+
+Las pruebas cubren funcionalidades relacionadas con:
+- Cálculo de tarifas.
+- Cambios de estado.
+- Persistencia del historial.
+- Validación de registros JSON.
+- Lectura de configuración.
+- Comportamiento ante configuraciones inexistentes o incorrectas.
+
+## 10. Estructura del proyecto
+
+```text
+project-py-taximetro/
+│
+├── taximeter.py
+├── config.json
+├── .gitignore
+├── README.md
+│
+├── tests/
+│   └── test_taximeter.py
+│
+├── data/
+│   └── historial.json
+│
+└── logs/
+    └── taximetro.log
+```
+
+Los directorios `data/` y `logs/` se generan durante la ejecución. Sus contenidos están excluidos del control de versiones mediante `.gitignore`.
+
+## 11. Tecnologías utilizadas
+
+- **Python:** lenguaje principal de desarrollo.
+- **Git:** control de versiones.
+- **GitHub:** alojamiento y gestión del repositorio.
+- **JSON:** configuración de tarifas, persistencia de datos y registros estructurados.
+- **unittest:** pruebas automatizadas.
+- **Logging:** registro de eventos y diagnóstico.
+
+## 12. Entregables del proyecto
+
+Cada fase contempla los siguientes entregables:
+- Código fuente actualizado en GitHub.
+- Demostración funcional de las funcionalidades implementadas.
+- Actualización del tablero Kanban del proyecto.
+
+El repositorio contiene el código fuente y las pruebas correspondientes al estado actual del desarrollo.
+
+## 13. Restricciones y criterios del proyecto
+
+- El lenguaje de programación principal será Python.
+- El control de versiones se realizará mediante Git y GitHub.
+- La gestión de tareas se realizará mediante GitHub Projects.
+- Las funcionalidades se desarrollarán de forma incremental.
+- Se priorizará el cumplimiento de las historias de usuario según su prioridad.
+- Las funcionalidades no implementadas se mantendrán identificadas como pendientes.
+
+## 14. Recursos y referencias
+
+- [Repositorio del proyecto](https://github.com/superkaiker/project-py-taximetro)
+- [Documentación oficial de Python](https://docs.python.org/3/)
+- [Documentación de Git](https://git-scm.com/doc)
+- [Documentación de GitHub Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects)
 
 ---
 
-> **Proyecto:** `TTX-247` — Modernización del sistema de facturación en flota
+**TaxiTech Solutions | Proyecto TTX-247**
 
-> **Cliente:** TaxiTech Solutions S.L. *(empresa de gestión de flotas de taxi, Madrid)*
-
-> **Equipo asignado:** Backend Squad — Nuevas incorporaciones
-
-> **Deadline:** Una semana a partir de la fecha de inicio del proyecto.
-
----
-
-## 📩 Contexto del Encargo
-
-El equipo de operaciones de **TaxiTech Solutions** lleva desde 2018 usando taxímetros físicos de la marca Hale modelo T200. El fabricante dejó de dar soporte en 2023 y los dispositivos están empezando a fallar en flota.
-
-La dirección ha tomado la decisión de **migrar a un sistema 100% software** antes de Q3 2025. El CTO ha abierto este proyecto piloto para validar el concepto con un **prototipo funcional** antes de comprometer presupuesto con un proveedor externo.
-
-Tu equipo ha sido asignado para desarrollar el prototipo.
-
----
-
-## 🗣️ Briefing del Cliente
-
-> *"Necesitamos algo que los taxistas puedan arrancar al inicio del turno y que calcule lo que le cuesta al pasajero en tiempo real. Cuando el taxi está parado en un semáforo, el contador sigue corriendo pero más despacio. En marcha, corre más rápido. Al llegar al destino, el taxista pulsa un botón, sale el total, y listo. Nos gustaría también poder ver un histórico de carreras del día. Si puede tener contraseña para que no lo toquen los pasajeros, mejor. Y si en el futuro se puede ver desde el móvil o una tablet en el taxi, perfecto."*
-> — Director de Operaciones, TaxiTech Solutions
-
-**Tarifas vigentes (Zona EMT Madrid, junio 2025):**
-- Taxi **parado o velocidad < 20 km/h**: `0.02 €/segundo`
-- Taxi **en movimiento**: `0.05 €/segundo`
-
----
-
-## 📋 Historias de Usuario
-
-El equipo de producto ha desglosado el briefing en las siguientes historias. Están priorizadas por el cliente usando MoSCoW.
-
-| ID | Historia | Prioridad |
-|----|----------|-----------|
-| US-01 | Como taxista, quiero iniciar una carrera con un solo comando para empezar a cobrar desde el momento de arranque | Must |
-| US-02 | Como taxista, quiero cambiar el estado entre "parado" y "en movimiento" para que la tarifa se ajuste | Must |
-| US-03 | Como taxista, quiero finalizar la carrera y ver el total en euros para cobrar al pasajero | Must |
-| US-04 | Como taxista, quiero poder iniciar otra carrera sin cerrar el programa para no perder tiempo entre servicios | Must |
-| US-05 | Como responsable de flota, quiero ver el histórico de carreras del día para cuadrar caja | Should |
-| US-06 | Como técnico, quiero que el sistema genere logs de operación para diagnosticar errores en producción | Should |
-| US-07 | Como técnico, quiero poder cambiar las tarifas en un fichero de configuración sin redeployar | Should |
-| US-08 | Como responsable de flota, quiero que el sistema requiera contraseña para protegerlo de manipulaciones | Could |
-| US-09 | Como taxista, quiero una interfaz visual con botones grandes para usarlo fácilmente con el móvil o tablet | Could |
-
----
-
-## 📊 Fases de Entrega
-
-El proyecto se divide en **4 fases incrementales**. Cada fase es un entregable autónomo y funcional.
-
----
-
-### 🟢 Fase 1 — MVP Funcional (US-01 a US-04)
-
-El primer entregable es un CLI operativo que cubra el flujo completo de una carrera. El cliente necesita validar la lógica de tarifas antes de avanzar con cualquier otra funcionalidad.
-
-El sistema debe arrancar desde terminal, presentar las instrucciones de uso, y permitir al conductor gestionar el estado del vehículo mediante comandos de teclado. La tarifa se acumula de forma continua en función del estado activo y el tiempo transcurrido. Al finalizar la carrera, el importe total se muestra en euros con dos decimales. El proceso no debe cerrarse entre carreras: el conductor necesita encadenar servicios sin interrupciones.
-
-**Requisitos funcionales:**
-
-- Al arrancar, el sistema debe explicar al conductor cómo usarlo sin necesidad de documentación externa
-- El conductor debe poder indicar en cada momento si el vehículo está parado o en movimiento
-- El importe se acumula de forma continua según el estado activo y el tiempo transcurrido, aplicando la tarifa correspondiente en cada tramo
-- Al cerrar la carrera, el sistema muestra el importe total a cobrar
-- El sistema debe permitir encadenar carreras de forma inmediata, sin interrupciones entre servicios
-
----
-
-### 🟡 Fase 2 — Observabilidad y Persistencia (US-05, US-06, US-07)
-
-El cliente ha solicitado que el sistema sea auditable y que los datos sobrevivan al cierre de la aplicación. Esta fase añade trazabilidad operativa y persistencia de negocio.
-
-El sistema debe registrar todos los eventos relevantes —arranque, cambios de estado, cierre de carrera, errores— en un log estructurado accesible para el equipo técnico. El historial de carreras debe escribirse en disco de forma incremental y estar disponible en la siguiente sesión sin intervención manual. Las tarifas deben poder modificarse mediante un fichero de configuración externo, sin necesidad de tocar el código ni redeployar.
-
-**Requisitos funcionales:**
-
-- El sistema debe registrar en todo momento qué está ocurriendo: arranque, cambios de estado del vehículo, cierre de carrera y cualquier error. Ese registro debe ser accesible para el equipo técnico sin necesidad de intervenir en el proceso en ejecución
-- Al finalizar cada carrera, los datos relevantes —fecha, duración e importe— deben quedar guardados de forma permanente y estar disponibles en sesiones posteriores sin ninguna acción manual
-- Las tarifas deben poder actualizarse sin modificar el código ni redeployar la aplicación
-- La lógica de cálculo de tarifas debe estar cubierta por tests automatizados
-
----
-
-### 🟠 Fase 3 — Arquitectura y Experiencia de Usuario (US-08, US-09)
-
-Con el MVP validado, el cliente quiere una versión del sistema que pueda mantenerse a largo plazo y que resulte usable para conductores con poca experiencia técnica. Esta fase implica una refactorización estructural y la incorporación de una interfaz gráfica.
-
-El código debe reorganizarse bajo un modelo orientado a objetos con responsabilidades claramente delimitadas entre componentes. El acceso al sistema debe protegerse mediante autenticación por contraseña, almacenada de forma segura. La interfaz gráfica debe ser funcional en una tablet montada en el vehículo: botones grandes, estado visible de un vistazo y contador actualizado en tiempo real sin que la interfaz se bloquee.
-
-**Requisitos funcionales:**
-
-- El código debe estar organizado de forma que cada componente tenga una responsabilidad clara y pueda modificarse o sustituirse sin afectar al resto del sistema
-- El acceso a la aplicación debe estar protegido por contraseña. Las credenciales deben almacenarse de forma segura: ningún valor sensible puede guardarse en texto plano
-- La interfaz gráfica debe ser funcional en una tablet montada en el vehículo: estado del taxi visible de un vistazo, importe actualizado en tiempo real e interacción táctil cómoda. La interfaz no debe bloquearse en ningún momento durante el uso
-
----
-
-### 🔴 Fase 4 — Versión de Producción
-
-Esta fase convierte el prototipo en un sistema desplegable. El cliente quiere poder instalar la aplicación en los vehículos de la flota sin dependencias manuales, y acceder al historial de operaciones desde cualquier dispositivo conectado a la red del taxi.
-
-El historial migra de fichero plano a base de datos relacional. La lógica de negocio se expone mediante una API REST que puede ser consumida tanto por la interfaz web incluida como por integraciones futuras. El sistema completo debe poder desplegarse con un único comando.
-
-**Requisitos funcionales:**
-
-- El historial de carreras debe almacenarse en una base de datos que garantice integridad y permita consultas estructuradas
-- La lógica de negocio debe exponerse a través de una API que permita iniciar carreras, cambiar su estado, finalizarlas y consultar el historial. Esta API debe poder ser consumida por cualquier cliente web o móvil en el futuro
-- El sistema debe incluir un panel web accesible desde el navegador para que el responsable de flota pueda consultar el historial sin instalar nada
-- El despliegue debe poder realizarse con un único comando, sin configuración manual del entorno. Los datos deben sobrevivir a reinicios del sistema
-
----
-
-## 🛠️ Restricciones Técnicas
-
-El lenguaje de desarrollo es **Python**. Más allá de eso, la elección de librerías, frameworks y herramientas queda en manos del equipo, que deberá justificar sus decisiones técnicas en la documentación del proyecto.
-
-Se requiere control de versiones con **Git y GitHub** desde el inicio. La gestión de tareas debe ser visible en un tablero **GitHub Projects** con una columna por fase.
-
----
-
-## 📦 Entregables por Fase
-
-Cada fase debe entregarse con:
-
-1. Repositorio de GitHub con el código fuente del proyecto
-2. Demo en directo
-3. Enlace al tablero Kanban actualizado
-
----
-
-## 📚 Recursos
-
-### Documentación oficial de Python
-- [`time` — Python stdlib](https://docs.python.org/3/library/time.html)
-- [`logging` — Python stdlib](https://docs.python.org/3/library/logging.html)
-- [`unittest` — Python stdlib](https://docs.python.org/3/library/unittest.html)
-- [`tkinter` — GUI básica](https://docs.python.org/3/library/tkinter.html)
-
-### Guías de referencia
-- [Real Python — OOP en Python](https://realpython.com/python3-object-oriented-programming/)
-- [Real Python — Testing](https://realpython.com/pytest-python-testing/)
-- [Real Python — Logging](https://realpython.com/python-logging/)
-- [Conventional Commits](https://www.conventionalcommits.org/es/v1.0.0/) — formato de mensajes de commit
-
-### Solución
-[Solución proyecto](https://github.com/Factoria-F5-madrid/stn-taximetro)
+Desarrollo incremental de un sistema de taxímetro digital en Python.
