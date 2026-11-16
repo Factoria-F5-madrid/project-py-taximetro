@@ -5,3 +5,4 @@ venv/
 .env
 CLAUDE.md
 .claude/
+data/
