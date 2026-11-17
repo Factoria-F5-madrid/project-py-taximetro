@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TAXITECH | Historial de carreras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f3f5f8;
+            color: #253047;
+        }
+        h1 { color: #253047; }
+        button {
+            padding: 10px 18px;
+            background: #2375d8;
+            color: white;
+            border: 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th { background: #e5ebf3; }
+        #mensaje { margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <h1>TAXITECH NEO//DRIVE</h1>
+    <h2>Historial de carreras</h2>
+
+    <button onclick="cargarHistorial()">Actualizar historial</button>
+    <p id="mensaje">Introduce tus credenciales para consultar el historial.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha de inicio</th>
+                <th>Duración (segundos)</th>
+                <th>Importe (€)</th>
+            </tr>
+        </thead>
+        <tbody id="historial"></tbody>
+    </table>
+
+    <script>
+        let autorizacion = null;
+
+        async function cargarHistorial() {
+            if (!autorizacion) {
+                const usuario = prompt("Usuario TAXITECH:");
+                if (usuario === null) return;
+
+                const contrasena = prompt("Contraseña TAXITECH:");
+                if (contrasena === null) return;
+
+                autorizacion = "Basic " + btoa(
+                    usuario + ":" + contrasena
+                );
+            }
+
+            const mensaje = document.getElementById("mensaje");
+            const tabla = document.getElementById("historial");
+
+            try {
+                const respuesta = await fetch("/api/carreras", {
+                    headers: {
+                        "Authorization": autorizacion
+                    }
+                });
+
+                if (respuesta.status === 401) {
+                    autorizacion = null;
+                    throw new Error("Credenciales incorrectas.");
+                }
+
+                if (!respuesta.ok) {
+                    throw new Error("Error al consultar el historial.");
+                }
+
+                const datos = await respuesta.json();
+                tabla.innerHTML = "";
+
+                datos.carreras.forEach(carrera => {
+                    const fila = document.createElement("tr");
+
+                    [
+                        carrera.fecha_inicio,
+                        carrera.duracion_segundos,
+                        Number(carrera.importe_euros).toFixed(2) + " €"
+                    ].forEach(valor => {
+                        const celda = document.createElement("td");
+                        celda.textContent = valor;
+                        fila.appendChild(celda);
+                    });
+
+                    tabla.appendChild(fila);
+                });
+
+                mensaje.textContent =
+                    "Carreras registradas: " + datos.total;
+
+            } catch (error) {
+                mensaje.textContent = error.message;
+            }
+        }
+    </script>
+</body>
+</html>
