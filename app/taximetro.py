@@ -2,6 +2,9 @@ import time
 import os
 from datetime import datetime
 from app.historico import GestorHistorico
+from app.registro import registrar_evento, registrar_error
+
+
 
 # ==========================================
 # CONFIGURACIÓN DE TARIFAS (US-07 Preparación)
@@ -73,7 +76,9 @@ class TaximetroMVP:
         }
 
         self.gestor_caja.registrar_carrera(self.tiempo_total_carrera, self.coste_acumulado)
+        registrar_evento(f"Carrera finalizada con éxito. Duración: {registro['duracion_seg']}s, Importe: {registro['total_eur']}€")
 
+    
         print("\n" + "="*40)
         print("🏁 CARRERA FINALIZADA")
         print(f"⏱️ Tiempo total: {int(self.tiempo_total_carrera)} segundos")
@@ -94,45 +99,58 @@ class TaximetroMVP:
         print("============================================\n")
 
     def ejecutar(self):
+        registrar_evento("Aplicación de taxímetro iniciada.")
         self.limpiar_pantalla()
         self.mostrar_instrucciones()
 
-        while True:
-            # Mostrar indicador dinámico si la carrera está en curso
-            if self.carrera_activa:
-                self._actualizar_tramo()
-                prompt = f"[CARRERA ACTIVA | Estado: {self.estado_actual} | Acumulado: {self.coste_acumulado:.2f} €] > "
-            else:
-                prompt = "[ESPERA | Sin carrera activa] > "
-
-            comando = input(prompt).strip().lower()
-
-            if comando in ['1', 'iniciar']:
+        try:
+            while True:
+                # Mostrar indicador dinámico si la carrera está en curso
                 if self.carrera_activa:
-                    print("⚠️ Ya hay una carrera en curso. Finalízala antes de iniciar otra.")
+                    self._actualizar_tramo()
+                    prompt = f"[CARRERA ACTIVA | Estado: {self.estado_actual} | Acumulado: {self.coste_acumulado:.2f} €] > "
                 else:
-                    self.iniciar_carrera()
+                    prompt = "[ESPERA | Sin carrera activa] > "
 
-            elif comando in ['p', 'parado']:
-                self.cambiar_estado("PARADO")
+                comando = input(prompt).strip().lower()
 
-            elif comando in ['m', 'movimiento']:
-                self.cambiar_estado("MOVIMIENTO")
+                if comando in ['1', 'iniciar']:
+                    if self.carrera_activa:
+                        print("⚠️ Ya hay una carrera en curso. Finalízala antes de iniciar otra.")
+                    else:
+                        self.iniciar_carrera()
 
-            elif comando in ['f', 'fin']:
-                self.finalizar_carrera()
+                elif comando in ['p', 'parado']:
+                    self.cambiar_estado("PARADO")
 
-            elif comando in ['h', 'historico']:
-                self.gestor_caja.mostrar_historico_y_caja(self.limpiar_pantalla)
-                input("\nPresiona Enter para continuar...")
+                elif comando in ['m', 'movimiento']:
+                    self.cambiar_estado("MOVIMIENTO")
 
-            elif comando in ['s', 'salir']:
-                if self.carrera_activa:
-                    confirmacion = input("⚠️ Hay una carrera en curso. ¿Seguro que deseas salir? (s/n): ")
-                    if confirmacion.lower() != 's':
-                        continue
-                print("Gracias por usar TaxiTech Solutions. ¡Buen turno!")
-                break
-            else:
-                print("❌ Comando no reconocido. Revisa las instrucciones:")
-                self.mostrar_instrucciones()
+                elif comando in ['f', 'fin']:
+                    self.finalizar_carrera()
+
+                elif comando in ['h', 'historico']:
+                    self.gestor_caja.mostrar_historico_y_caja(self.limpiar_pantalla)
+                    input("\nPresiona Enter para continuar...")
+
+                elif comando in ['s', 'salir']:
+                    if self.carrera_activa:
+                        confirmacion = input("⚠️ Hay una carrera en curso. ¿Seguro que deseas salir? (s/n): ")
+                        if confirmacion.lower() != 's':
+                            continue
+                    print("Gracias por usar TaxiTech Solutions. ¡Buen turno!")
+
+                elif comando == 'error':
+                    # Opción de prueba para forzar el error crítico y ver el log
+                    raise ZeroDivisionError("Prueba manual de error crítico de sistema.")
+                    
+                    break
+                else:
+                    print("❌ Comando no reconocido. Revisa las instrucciones:")
+                    self.mostrar_instrucciones()
+                 
+                    
+
+        except Exception as e:
+            registrar_error(f"Se ha producido un error crítico en la aplicación: {e}")
+            raise

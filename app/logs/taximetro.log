@@ -1,0 +1,16 @@
+
+2026-11-17 17:54:08 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 17:54:21 [INFO] Finalizando carrera.
+2026-11-17 17:54:21 [INFO] Carrera finalizada con éxito. Duración: 8.4s, Importe: 0.34€
+2026-11-17 17:55:24 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 17:55:48 [INFO] Finalizando carrera.
+2026-11-17 17:55:48 [INFO] Carrera finalizada con éxito. Duración: 18.6s, Importe: 0.64€
+2026-11-17 17:59:39 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 18:00:02 [INFO] Carrera finalizada con éxito. Duración: 16.8s, Importe: 0.78€
+2026-11-17 18:17:52 [INFO] Carrera finalizada con éxito. Duración: 35.6s, Importe: 1.73€
+2026-11-17 18:19:49 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 18:20:21 [INFO] Carrera finalizada con éxito. Duración: 24.2s, Importe: 1.16€
+2026-11-17 18:21:37 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 18:33:00 [INFO] Carrera finalizada con éxito. Duración: 13.0s, Importe: 0.61€
+2026-11-17 18:46:26 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 18:46:32 [ERROR] Se ha producido un error crítico en la aplicación: Prueba manual de error crítico de sistema.
