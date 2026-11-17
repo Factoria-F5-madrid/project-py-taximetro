@@ -5,8 +5,8 @@
 <div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
-![Estado](https://img.shields.io/badge/Estado-En%20desarrollo-yellow)
-![Sprint](https://img.shields.io/badge/Sprint-1-orange)
+![Estado](https://img.shields.io/badge/Estado-Completado-brightgreen)
+![Fases](https://img.shields.io/badge/Fases-4%2F4-blue)
 ![Prioridad](https://img.shields.io/badge/Prioridad-Alta-red)
 
 </div>
