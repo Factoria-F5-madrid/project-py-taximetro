@@ -1,0 +1,289 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    color: #333;
+}
+
+header {
+    background: #1e293b;
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+.dashboard {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.summary {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.card {
+    background: white;
+    flex: 1;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.card h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #64748b;
+}
+
+.card p {
+    font-size: 32px;
+    font-weight: bold;
+    color: #0f766e;
+}
+
+.date-filter {
+    background: white;
+    padding: 25px;
+    margin-bottom: 35px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.date-filter h2 {
+    margin-bottom: 20px;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-controls input,
+.filter-controls button {
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.filter-controls button {
+    background: #0f766e;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.filter-controls button:hover {
+    background: #115e59;
+}
+
+#clear-filter {
+    background: #64748b;
+}
+
+#clear-filter:hover {
+    background: #475569;
+}
+
+.history {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.history h2 {
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background: #f1f5f9;
+}
+
+@media (max-width: 600px) {
+    .summary {
+        flex-direction: column;
+    }
+
+    .dashboard {
+        margin: 15px auto;
+    }
+}
+
+
+/* Login page */
+
+.login-container {
+    max-width: 420px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.login-card {
+    background: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.login-card h2 {
+    margin-bottom: 12px;
+    color: #1e293b;
+}
+
+.login-card > p {
+    margin-bottom: 25px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.login-card label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.login-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.login-button {
+    width: 100%;
+    padding: 13px;
+    background: #0f766e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background: #115e59;
+}
+
+.login-error {
+    color: #b91c1c;
+    background: #fee2e2;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+/* Taximeter controls */
+
+.taximeter-control {
+    background: white;
+    padding: 25px;
+    margin-bottom: 35px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.taximeter-control h2 {
+    margin-bottom: 20px;
+    color: #1e293b;
+}
+
+#trip-status {
+    color: #64748b;
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+#current-fare {
+    font-size: 42px;
+    color: #0f766e;
+    margin-bottom: 25px;
+}
+
+.meter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.meter-buttons button {
+    padding: 13px 20px;
+    border: none;
+    border-radius: 6px;
+    background: #0f766e;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.meter-buttons button:hover:not(:disabled) {
+    background: #115e59;
+}
+
+.meter-buttons button:disabled {
+    background: #cbd5e1;
+    color: #64748b;
+    cursor: not-allowed;
+}
+
+#finish-trip {
+    background: #b91c1c;
+}
+
+#finish-trip:hover:not(:disabled) {
+    background: #991b1b;
+}
+
+#trip-message {
+    margin-top: 18px;
+    color: #0f766e;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .meter-buttons {
+        flex-direction: column;
+    }
+
+    .meter-buttons button {
+        width: 100%;
+        padding: 15px;
+    }
+
+    #current-fare {
+        font-size: 36px;
+    }
+}

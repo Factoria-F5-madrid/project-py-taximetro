@@ -5,8 +5,8 @@
 <div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
-![Estado](https://img.shields.io/badge/Estado-En%20desarrollo-yellow)
-![Sprint](https://img.shields.io/badge/Sprint-1-orange)
+![Estado](https://img.shields.io/badge/Estado-Completado-brightgreen)
+![Fases](https://img.shields.io/badge/Fases-4%2F4-blue)
 ![Prioridad](https://img.shields.io/badge/Prioridad-Alta-red)
 
 </div>
@@ -145,6 +145,55 @@ Cada fase debe entregarse con:
 3. Enlace al tablero Kanban actualizado
 
 ---
+
+## 🚀 Instalación y despliegue
+
+### Requisitos previos
+
+- Python 3.10 o superior.
+- Git.
+
+### Clonar el repositorio
+
+```bash
+git clone https://github.com/kaiheraldo/project-py-taximetro.git
+cd project-py-taximetro
+```
+
+### Iniciar la aplicación
+
+Ejecutar un único comando desde la carpeta del proyecto:
+
+```bash
+./start.sh
+```
+
+El script realiza automáticamente las siguientes tareas:
+
+1. Crea el entorno virtual de Python si no existe.
+2. Activa el entorno virtual.
+3. Instala las dependencias desde `requirements.txt`.
+4. Genera una clave secreta de Flask si todavía no existe.
+5. Solicita crear una contraseña en la primera ejecución si no existe.
+6. Inicia el servidor Gunicorn.
+
+### Acceso al panel web
+
+Abrir el navegador en:
+
+```text
+http://127.0.0.1:5001
+```
+
+Iniciar sesión con la contraseña configurada.
+
+### Persistencia de datos
+
+El historial de carreras se almacena en una base de datos SQLite (`taximeter.db`). Los datos, la configuración y las credenciales se mantienen en archivos locales para conservar la información entre reinicios de la aplicación.
+
+### Detener la aplicación
+
+Pulsar `Ctrl + C` en la terminal donde se está ejecutando el servidor.
 
 ## 📚 Recursos
 
