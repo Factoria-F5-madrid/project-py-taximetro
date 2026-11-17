@@ -15,3 +15,6 @@ venv/
 # Datos generados
 data/
 logs/
+
+# Entorno virtual del proyecto
+.venv-taxitech/

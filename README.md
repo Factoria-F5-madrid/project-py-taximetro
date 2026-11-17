@@ -1,12 +1,12 @@
-# TaxiTech Solutions 🚖
+# TaxiTech Solutions 🚕
 
 **Proyecto:** TTX-247  
 **Desarrollo:** Taxímetro digital para flota de taxis  
 **Ubicación:** Madrid, España
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Estado](https://img.shields.io/badge/Estado-Fase%202%20completada-brightgreen)
-![Fases](https://img.shields.io/badge/Fases-1%20y%202-success)
+![Estado](https://img.shields.io/badge/Estado-Fase%203%20en%20desarrollo-orange)
+![Fases](https://img.shields.io/badge/Fases-1%20y%202%20completadas-success)
 ![Prioridad](https://img.shields.io/badge/Prioridad-Alta-red)
 
 ## 1. Contexto del proyecto
@@ -94,11 +94,15 @@ Funcionalidades:
 
 Funcionalidades previstas:
 - Separación de responsabilidades y refactorización de la arquitectura.
+- Organización del código en módulos especializados.
+- Coordinación de la lógica de negocio mediante clases.
 - Protección mediante contraseña.
 - Interfaz gráfica con botones grandes.
 - Adaptación de la experiencia de usuario para tablets y dispositivos móviles.
 
-**Estado:** pendiente.
+**Estado:** en desarrollo.
+
+La refactorización y separación de responsabilidades ya se han iniciado mediante una arquitectura modular. La protección mediante contraseña y la interfaz gráfica continúan pendientes.
 
 ### Fase 4. Preparación para producción
 
@@ -145,9 +149,19 @@ python -m venv .venv
 
 ### Ejecutar la aplicación
 
+El punto de entrada principal recomendado es:
+
+```powershell
+python .\main.py
+```
+
+Se mantiene `taximeter.py` como punto de entrada compatible con la estructura anterior:
+
 ```powershell
 python .\taximeter.py
 ```
+
+Ambos comandos permiten acceder a la misma aplicación de consola.
 
 ## 5. Uso de la aplicación
 
@@ -169,24 +183,22 @@ La aplicación dispone de una interfaz de consola interactiva.
 
 ```text
 > iniciar
-Carrera iniciada.
+Carrera iniciada. Estado inicial: parado.
 
 > mover
-Vehículo en movimiento.
+Estado actualizado: movimiento.
 
 > parar
-Vehículo parado.
-
-> mover
-Vehículo en movimiento.
+Estado actualizado: parado.
 
 > finalizar
-Carrera finalizada.
-Importe total: X.XX €
+Total de la carrera: X.XX €
+Carrera guardada en el historial.
 
 > historial
 Historial de carreras de hoy:
 ...
+
 Total recaudado: X.XX €
 ```
 
@@ -209,6 +221,8 @@ Las cantidades representan euros por segundo.
 
 Para modificar las tarifas basta con editar los valores del archivo de configuración. La aplicación carga la configuración al iniciarse, sin necesidad de modificar el código fuente.
 
+Si el archivo no existe o contiene valores inválidos, el sistema utiliza las tarifas predeterminadas.
+
 ## 7. Persistencia de datos
 
 El sistema conserva el historial de carreras finalizadas en:
@@ -218,7 +232,7 @@ data/historial.json
 ```
 
 Cada carrera almacena información como:
-- Fecha y hora de finalización o registro.
+- Fecha y hora de registro.
 - Duración de la carrera.
 - Importe total.
 
@@ -243,16 +257,6 @@ Los eventos registrados incluyen:
 - Finalización de carreras.
 - Errores e incidencias.
 
-Ejemplo de registro:
-
-```json
-{
-    "fecha": "2026-11-16 09:40:17",
-    "nivel": "INFO",
-    "evento": "Programa iniciado"
-}
-```
-
 El archivo puede consultarse externamente mientras el programa está en funcionamiento.
 
 El directorio `logs/` se crea automáticamente.
@@ -267,13 +271,13 @@ Para ejecutar la batería completa:
 python -m unittest discover -s tests -v
 ```
 
-Para comprobar la sintaxis del programa:
+Para comprobar la sintaxis de los módulos:
 
 ```powershell
-python -m py_compile .\taximeter.py
+python -m compileall .\taximetro .\interfaces .\main.py .\taximeter.py
 ```
 
-**Estado de las pruebas:** 12 pruebas superadas.
+**Estado de las pruebas:** 18 pruebas superadas.
 
 Las pruebas cubren funcionalidades relacionadas con:
 - Cálculo de tarifas.
@@ -282,16 +286,34 @@ Las pruebas cubren funcionalidades relacionadas con:
 - Validación de registros JSON.
 - Lectura de configuración.
 - Comportamiento ante configuraciones inexistentes o incorrectas.
+- Inicio y finalización de carreras.
+- Gestión de carreras activas.
+- Liberación del taxímetro después de finalizar una carrera.
+- Posibilidad de iniciar nuevas carreras.
 
 ## 10. Estructura del proyecto
+
+La aplicación está organizada en módulos para separar la lógica de negocio, la configuración, la persistencia, los registros y la interfaz de usuario.
 
 ```text
 project-py-taximetro/
 │
+├── main.py
 ├── taximeter.py
 ├── config.json
 ├── .gitignore
 ├── README.md
+│
+├── taximetro/
+│   ├── __init__.py
+│   ├── carrera.py
+│   ├── taximetro.py
+│   ├── configuracion.py
+│   ├── persistencia.py
+│   └── logging_config.py
+│
+├── interfaces/
+│   └── consola.py
 │
 ├── tests/
 │   └── test_taximeter.py
@@ -302,6 +324,20 @@ project-py-taximetro/
 └── logs/
     └── taximetro.log
 ```
+
+### Responsabilidades de los módulos
+
+| Módulo | Responsabilidad |
+|---|---|
+| `main.py` | Punto de entrada principal de la aplicación. |
+| `taximeter.py` | Compatibilidad con los imports y el punto de entrada anteriores. |
+| `taximetro/carrera.py` | Gestión del estado, duración y cálculo económico de una carrera. |
+| `taximetro/taximetro.py` | Coordinación de las operaciones del taxímetro y las carreras activas. |
+| `taximetro/configuracion.py` | Lectura y validación de las tarifas. |
+| `taximetro/persistencia.py` | Almacenamiento y recuperación del historial. |
+| `taximetro/logging_config.py` | Configuración del sistema de registros. |
+| `interfaces/consola.py` | Interacción con el usuario mediante comandos de consola. |
+| `tests/test_taximeter.py` | Pruebas automatizadas del funcionamiento. |
 
 Los directorios `data/` y `logs/` se generan durante la ejecución. Sus contenidos están excluidos del control de versiones mediante `.gitignore`.
 

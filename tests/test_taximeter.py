@@ -6,6 +6,7 @@ from pathlib import Path
 
 from taximeter import Carrera, guardar_carrera, cargar_tarifas
 from taximeter import TARIFA_PARADO, TARIFA_MOVIMIENTO
+from taximetro.taximetro import Taximetro
 
 
 class TestCarrera(unittest.TestCase):
@@ -144,6 +145,55 @@ class TestCarrera(unittest.TestCase):
                 tarifas,
                 (TARIFA_PARADO, TARIFA_MOVIMIENTO),
             )
+
+
+class TestTaximetro(unittest.TestCase):
+
+    def test_iniciar_carrera(self):
+        taximetro = Taximetro()
+
+        carrera = taximetro.iniciar_carrera()
+
+        self.assertIsNotNone(carrera)
+        self.assertTrue(taximetro.hay_carrera_activa())
+
+    def test_no_permite_dos_carreras_activas(self):
+        taximetro = Taximetro()
+        taximetro.iniciar_carrera()
+
+        with self.assertRaises(RuntimeError):
+            taximetro.iniciar_carrera()
+
+    def test_cambiar_estado_sin_carrera_activa(self):
+        taximetro = Taximetro()
+
+        with self.assertRaises(RuntimeError):
+            taximetro.cambiar_estado("movimiento")
+
+    def test_finalizar_sin_carrera_activa(self):
+        taximetro = Taximetro()
+
+        with self.assertRaises(RuntimeError):
+            taximetro.finalizar_carrera()
+
+    def test_finalizar_carrera_libera_el_taximetro(self):
+        taximetro = Taximetro()
+        taximetro.iniciar_carrera()
+
+        carrera = taximetro.finalizar_carrera()
+
+        self.assertIsNotNone(carrera)
+        self.assertFalse(taximetro.hay_carrera_activa())
+
+    def test_permite_iniciar_otra_carrera(self):
+        taximetro = Taximetro()
+        taximetro.iniciar_carrera()
+        taximetro.finalizar_carrera()
+
+        segunda_carrera = taximetro.iniciar_carrera()
+
+        self.assertIsNotNone(segunda_carrera)
+        self.assertTrue(taximetro.hay_carrera_activa())
 
 
 if __name__ == "__main__":

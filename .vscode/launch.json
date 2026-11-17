@@ -1,0 +1,26 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "TAXITECH - Interfaz gráfica",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "TAXITECH - Consola",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "args": [
+                "--consola"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
