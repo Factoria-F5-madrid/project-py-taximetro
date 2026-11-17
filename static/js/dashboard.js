@@ -155,6 +155,9 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDashboard();
     loadCurrentTrip();
 
+    // Refresh the current fare every second
+    setInterval(loadCurrentTrip, 1000);
+
     // Date filter
     const dateInput = document.getElementById("filter-date");
 
