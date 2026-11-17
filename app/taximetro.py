@@ -85,12 +85,12 @@ class TaximetroMVP:
         print("       TAXIMETRO TAXITECH SOLUTIONS        ")
         print("============================================")
         print("Comandos disponibles:")
-        print("  [1] ó 'iniciar'    -> Iniciar nueva carrera")
-        print("  [p] ó 'parado'     -> Cambiar a estado PARADO (0.02 €/s)")
-        print("  [m] ó 'movimiento' -> Cambiar a estado EN MOVIMIENTO (0.05 €/s)")
-        print("  [f] ó 'fin'        -> Finalizar carrera y calcular total")
-        print("  [h] ó 'historico'  -> Ver histórico de carreras y caja (US-05)")
-        print("  [s] ó 'salir'      -> Salir de la aplicación")
+        print("  [1] 'iniciar'    -> Iniciar nueva carrera")
+        print("  [p] 'parado'     -> Cambiar a estado PARADO (0.02 euros/s)")
+        print("  [m] 'movimiento' -> Cambiar a estado EN MOVIMIENTO (0.05 euros/s)")
+        print("  [f] 'fin'        -> Finalizar carrera y calcular total")
+        print("  [h] 'historico'  -> Ver historico de carreras y caja (US-05)")
+        print("  [s] 'salir'      -> Salir de la aplicacion")
         print("============================================\n")
 
     def ejecutar(self):
