@@ -34,6 +34,30 @@
                 <p id="total-earnings">€0.00</p>
             </div>
         </section>
+
+        <section class="taximeter-control">
+            <h2>Taximeter Control</h2>
+
+            <p id="trip-status">No active trip</p>
+
+            <h3 id="current-fare">€0.00</h3>
+
+            <input
+                type="hidden"
+                id="csrf-token"
+                value="{{ csrf_token() }}"
+            >
+
+            <div class="meter-buttons">
+                <button id="start-trip">Start Trip</button>
+                <button id="moving" disabled>Moving</button>
+                <button id="stopped" disabled>Stopped</button>
+                <button id="finish-trip" disabled>Finish Trip</button>
+            </div>
+
+            <p id="trip-message" role="status"></p>
+        </section>
+
         <section class="date-filter">
             <h2>Filter Trips by Date</h2>
 

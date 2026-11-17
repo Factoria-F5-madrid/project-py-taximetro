@@ -201,3 +201,89 @@ th {
     border-radius: 6px;
     margin-bottom: 20px;
 }
+
+/* Taximeter controls */
+
+.taximeter-control {
+    background: white;
+    padding: 25px;
+    margin-bottom: 35px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.taximeter-control h2 {
+    margin-bottom: 20px;
+    color: #1e293b;
+}
+
+#trip-status {
+    color: #64748b;
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+#current-fare {
+    font-size: 42px;
+    color: #0f766e;
+    margin-bottom: 25px;
+}
+
+.meter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.meter-buttons button {
+    padding: 13px 20px;
+    border: none;
+    border-radius: 6px;
+    background: #0f766e;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.meter-buttons button:hover:not(:disabled) {
+    background: #115e59;
+}
+
+.meter-buttons button:disabled {
+    background: #cbd5e1;
+    color: #64748b;
+    cursor: not-allowed;
+}
+
+#finish-trip {
+    background: #b91c1c;
+}
+
+#finish-trip:hover:not(:disabled) {
+    background: #991b1b;
+}
+
+#trip-message {
+    margin-top: 18px;
+    color: #0f766e;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .meter-buttons {
+        flex-direction: column;
+    }
+
+    .meter-buttons button {
+        width: 100%;
+        padding: 15px;
+    }
+
+    #current-fare {
+        font-size: 36px;
+    }
+}

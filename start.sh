@@ -33,6 +33,6 @@ if [ ! -f "auth.json" ]; then
     python -c "from auth import Auth; Auth().login()"
 fi
 
-# Start the web application
-echo "TaxiTech is starting at http://127.0.0.1:5001"
-exec gunicorn --bind 127.0.0.1:5001 --workers 1 api:app
+# Start the web application on the local network
+echo "TaxiTech is starting on port 5001"
+exec gunicorn --bind 0.0.0.0:5001 --workers 1 api:app

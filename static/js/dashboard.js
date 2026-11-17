@@ -1,10 +1,8 @@
 
 async function loadDashboard(day = "") {
     try {
-        // Build the API URLs
         const query = day ? `?day=${day}` : "";
 
-        // Get trip history
         const tripsResponse = await fetch(`/trips${query}`);
 
         if (!tripsResponse.ok) {
@@ -13,7 +11,6 @@ async function loadDashboard(day = "") {
 
         const trips = await tripsResponse.json();
 
-        // Get dashboard summary
         const summaryResponse = await fetch(`/trips/summary${query}`);
 
         if (!summaryResponse.ok) {
@@ -22,13 +19,11 @@ async function loadDashboard(day = "") {
 
         const summary = await summaryResponse.json();
 
-        // Update summary cards
         document.getElementById("trip-count").textContent = summary.count;
 
         document.getElementById("total-earnings").textContent =
             "€" + Number(summary.total_eur).toFixed(2);
 
-        // Display trip history
         const tripList = document.getElementById("trip-list");
 
         tripList.innerHTML = "";
@@ -67,31 +62,177 @@ async function loadDashboard(day = "") {
     }
 }
 
-// Set up date filter buttons
+
+// Update the current trip display
+async function loadCurrentTrip() {
+    try {
+        const response = await fetch("/trips/current");
+
+        if (response.status === 404) {
+            updateTripDisplay(false);
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error("Could not load current trip");
+        }
+
+        const trip = await response.json();
+
+        updateTripDisplay(true, trip);
+
+    } catch (error) {
+        console.error("Current trip error:", error);
+    }
+}
+
+
+// Update trip status and buttons
+function updateTripDisplay(active, trip = {}) {
+    const status = document.getElementById("trip-status");
+    const fare = document.getElementById("current-fare");
+
+    const startButton = document.getElementById("start-trip");
+    const movingButton = document.getElementById("moving");
+    const stoppedButton = document.getElementById("stopped");
+    const finishButton = document.getElementById("finish-trip");
+
+    if (!active) {
+        status.textContent = "No active trip";
+        fare.textContent = "€0.00";
+
+        startButton.disabled = false;
+        movingButton.disabled = true;
+        stoppedButton.disabled = true;
+        finishButton.disabled = true;
+
+        return;
+    }
+
+    status.textContent = `Trip ${trip.state}`;
+    fare.textContent =
+        "€" + Number(trip.current_total_eur).toFixed(2);
+
+    startButton.disabled = true;
+    movingButton.disabled = trip.state === "moving";
+    stoppedButton.disabled = trip.state === "stopped";
+    finishButton.disabled = false;
+}
+
+
+// Send authenticated requests with CSRF protection
+async function sendTripAction(url, data = {}) {
+    const csrfToken = document.getElementById("csrf-token").value;
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(result.error || "Something went wrong");
+    }
+
+    return result;
+}
+
+
+// Show messages to the user
+function showTripMessage(message) {
+    document.getElementById("trip-message").textContent = message;
+}
+
+
+// Set up dashboard
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Load all trips when dashboard opens
     loadDashboard();
+    loadCurrentTrip();
 
+    // Date filter
     const dateInput = document.getElementById("filter-date");
-    const applyButton = document.getElementById("apply-filter");
-    const clearButton = document.getElementById("clear-filter");
 
-    // Apply selected date
-    applyButton.addEventListener("click", () => {
-        const selectedDate = dateInput.value;
-
-        if (!selectedDate) {
+    document.getElementById("apply-filter").addEventListener("click", () => {
+        if (!dateInput.value) {
             alert("Please select a date first.");
             return;
         }
 
-        loadDashboard(selectedDate);
+        loadDashboard(dateInput.value);
     });
 
-    // Clear date filter
-    clearButton.addEventListener("click", () => {
+    document.getElementById("clear-filter").addEventListener("click", () => {
         dateInput.value = "";
         loadDashboard();
     });
+
+
+    // Start trip
+    document.getElementById("start-trip").addEventListener("click", async () => {
+        try {
+            const result = await sendTripAction("/trips/start");
+
+            showTripMessage(result.message);
+            await loadCurrentTrip();
+
+        } catch (error) {
+            showTripMessage(error.message);
+        }
+    });
+
+
+    // Change trip state
+    document.getElementById("moving").addEventListener("click", async () => {
+        try {
+            const result = await sendTripAction("/trips/state", {
+                state: "moving"
+            });
+
+            showTripMessage(result.message);
+            await loadCurrentTrip();
+
+        } catch (error) {
+            showTripMessage(error.message);
+        }
+    });
+
+
+    document.getElementById("stopped").addEventListener("click", async () => {
+        try {
+            const result = await sendTripAction("/trips/state", {
+                state: "stopped"
+            });
+
+            showTripMessage(result.message);
+            await loadCurrentTrip();
+
+        } catch (error) {
+            showTripMessage(error.message);
+        }
+    });
+
+
+    // Finish trip
+    document.getElementById("finish-trip").addEventListener("click", async () => {
+        try {
+            const result = await sendTripAction("/trips/finish");
+
+            showTripMessage(
+                `${result.message}. Total: €${Number(result.total_eur).toFixed(2)}`
+            );
+
+            await loadCurrentTrip();
+            await loadDashboard();
+
+        } catch (error) {
+            showTripMessage(error.message);
+        }
+    });
+
 });
