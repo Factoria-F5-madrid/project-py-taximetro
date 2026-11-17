@@ -14,3 +14,35 @@
 2026-11-17 18:33:00 [INFO] Carrera finalizada con éxito. Duración: 13.0s, Importe: 0.61€
 2026-11-17 18:46:26 [INFO] Aplicación de taxímetro iniciada.
 2026-11-17 18:46:32 [ERROR] Se ha producido un error crítico en la aplicación: Prueba manual de error crítico de sistema.
+2026-11-17 19:16:16 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 19:16:24 [INFO] Nueva carrera iniciada.
+2026-11-17 19:16:26 [INFO] Estado del vehículo cambiado a: MOVIMIENTO
+2026-11-17 19:16:35 [INFO] Carrera finalizada con éxito. Duración: 10.7s, Importe: 0.48€
+2026-11-17 19:17:15 [ERROR] Se ha producido un error crítico en la aplicación: Prueba manual de error crítico de sistema.
+2026-11-17 19:17:30 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 19:17:33 [INFO] Nueva carrera iniciada.
+2026-11-17 19:17:38 [INFO] Estado del vehículo cambiado a: MOVIMIENTO
+2026-11-17 19:17:40 [INFO] Estado del vehículo cambiado a: PARADO
+2026-11-17 19:17:45 [INFO] Carrera finalizada con éxito. Duración: 12.1s, Importe: 0.3€
+2026-11-17 19:19:00 [INFO] Nueva carrera iniciada.
+2026-11-17 19:19:01 [INFO] Estado del vehículo cambiado a: MOVIMIENTO
+2026-11-17 19:19:20 [INFO] Carrera finalizada con éxito. Duración: 20.0s, Importe: 0.95€
+2026-11-17 19:21:08 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 19:21:15 [INFO] Nueva carrera iniciada.
+2026-11-17 19:21:17 [INFO] Estado del vehículo cambiado a: MOVIMIENTO
+2026-11-17 19:21:20 [INFO] Carrera finalizada con éxito. Duración: 4.9s, Importe: 0.2€
+2026-11-17 19:24:33 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 19:24:37 [INFO] Nueva carrera iniciada.
+2026-11-17 19:24:39 [INFO] Estado del vehículo cambiado a: MOVIMIENTO
+2026-11-17 19:24:48 [INFO] Carrera finalizada con éxito. Duración: 10.7s, Importe: 27.52€
+2026-11-17 19:25:28 [INFO] Nueva carrera iniciada.
+2026-11-17 19:25:30 [INFO] Estado del vehículo cambiado a: MOVIMIENTO
+2026-11-17 19:25:34 [INFO] Carrera finalizada con éxito. Duración: 5.9s, Importe: 11.35€
+2026-11-17 19:25:44 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 19:25:46 [INFO] Nueva carrera iniciada.
+2026-11-17 19:25:50 [INFO] Estado del vehículo cambiado a: MOVIMIENTO
+2026-11-17 19:25:56 [INFO] Carrera finalizada con éxito. Duración: 9.7s, Importe: 0.37€
+2026-11-17 19:30:34 [INFO] Aplicación de taxímetro iniciada.
+2026-11-17 19:30:37 [INFO] Nueva carrera iniciada.
+2026-11-17 19:30:40 [INFO] Estado del vehículo cambiado a: MOVIMIENTO
+2026-11-17 19:30:53 [INFO] Carrera finalizada con éxito. Duración: 15.5s, Importe: 0.7€
