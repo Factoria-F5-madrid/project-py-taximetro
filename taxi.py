@@ -1,6 +1,9 @@
 import time
 # importo aqui el modulo para medir el tiempo
 
+# Importamos las tarifas desde el archivo tarifas.py
+from tarifas import TARIFA_PARADO, TARIFA_MOVIMIENTO
+
 class Taxi:
 
     #constructor
@@ -29,4 +32,99 @@ class Taxi:
         print("Estado: PARADO")
         print("Importe: 0.00 €")    
 
+    
+    # US-02: Calcular el importe acumulado
+    def calcular_importe(self):
 
+        # Comprobamos que existe una carrera
+        if not self.carrera_activa:
+            return
+
+        # Obtenemos el tiempo actual
+        tiempo_actual = time.monotonic()
+
+        # Calculamos los segundos desde el último cálculo
+        segundos = tiempo_actual - self.ultimo_tiempo
+
+        # Seleccionamos la tarifa según el estado
+        if self.en_movimiento:
+            tarifa = TARIFA_MOVIMIENTO
+        else:
+            tarifa = TARIFA_PARADO
+
+        # Calculamos cuánto cuesta este tramo
+        importe_tramo = segundos * tarifa
+
+        # Sumamos el importe al total de la carrera
+        self.importe_total += importe_tramo
+
+        # Actualizamos el instante del último cálculo
+        self.ultimo_tiempo = tiempo_actual
+
+
+    
+    # US-02: Indicar que el taxi empieza a moverse
+    def iniciar_movimiento(self):
+
+        # No podemos mover el taxi sin iniciar carrera
+        if not self.carrera_activa:
+            print("Primero debes iniciar una carrera.")
+            return
+
+        # Comprobamos si ya está en movimiento
+        if self.en_movimiento:
+            print("El taxi ya está en movimiento.")
+            return
+
+        # Calculamos el dinero acumulado estando parado
+        self.calcular_importe()
+
+        # Cambiamos el estado del taxi
+        self.en_movimiento = True
+
+        print("\nEl taxi está EN MOVIMIENTO.")
+
+
+
+    # US-02: Indicar que el taxi se detiene
+    def detener_movimiento(self):
+
+        # Comprobamos que hay una carrera activa
+        if not self.carrera_activa:
+            print("Primero debes iniciar una carrera.")
+            return
+
+        # Comprobamos si ya está parado
+        if not self.en_movimiento:
+            print("El taxi ya está parado.")
+            return
+
+        # Calculamos el tiempo que estuvo en movimiento
+        self.calcular_importe()
+
+        # Cambiamos el estado a parado
+        self.en_movimiento = False
+
+        print("\nEl taxi está PARADO.")
+
+
+    # US-02: Consultar el importe actual
+    def consultar_importe(self):
+
+        # No podemos consultar una carrera inexistente
+        if not self.carrera_activa:
+            print("No hay ninguna carrera activa.")
+            return
+
+        # Actualizamos el importe hasta este momento
+        self.calcular_importe()
+
+        # Comprobamos el estado actual del taxi
+        if self.en_movimiento:
+            estado = "EN MOVIMIENTO"
+        else:
+            estado = "PARADO"
+
+        # Mostramos la información
+        print("\nEstado:", estado)
+        print(f"Importe actual: {self.importe_total:.2f} €")

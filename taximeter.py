@@ -1,35 +1,50 @@
 from taxi import Taxi
 
-def user_loggage():
-    print("Add your Loggage")
-    print("Now See you Issue")
-    print("Now See you Issue number")
-
+# Creamos nuestro objeto Taxi
 taxi = Taxi()
 
+# Mostramos el título de la aplicación
 print("=============================")
+print("          TAXITECH")
 print("      TAXÍMETRO DIGITAL")
 print("=============================")
 
-# Mantenemos la aplicación funcionando en bucle hasta que el usuario decida salir
+# Mantenemos el programa funcionando
 while True:
 
-    # Mostramos el menú provisional
-    print("\n1. Iniciar carrera")
-    print("2. Salir")
+    # Mostramos las opciones del menú
+    print("\n--------- MENÚ ---------")
+    print("1. Iniciar carrera")
+    print("2. Taxi en movimiento")
+    print("3. Taxi parado")
+    print("4. Consultar importe")
+    print("5. Salir")
+    print("------------------------")
 
-    # Pedimos al usuario que elija una opción
+    # Leemos la opción introducida
     opcion = input("Selecciona una opción: ")
 
-    # Primera opción: iniciar carrera
+    # US-01: Iniciar carrera
     if opcion == "1":
         taxi.iniciar_carrera()
 
-    # Segunda opción: salir
+    # US-02: Cambiar a movimiento
     elif opcion == "2":
+        taxi.iniciar_movimiento()
+
+    # US-02: Cambiar a parado
+    elif opcion == "3":
+        taxi.detener_movimiento()
+
+    # US-02: Consultar cuánto debemos cobrar
+    elif opcion == "4":
+        taxi.consultar_importe()
+
+    # Salir del programa
+    elif opcion == "5":
         print("Gracias por utilizar TaxiTech.")
         break
 
-    # Si el usuario introduce otra opción
+    # Gestionar opciones incorrectas
     else:
-        print("Opción incorrecta.")
+        print("Opción incorrecta. Inténtalo de nuevo.")
