@@ -14,23 +14,36 @@ class Taxi:
         self.tiempo_inicio = 0.0
         self.ultimo_tiempo = 0.0
         self.importe_total = 0.0
+        self.numero_carrera = 0
 
+
+    
+    # US-01 y US-04: Iniciar una nueva carrera
     def iniciar_carrera(self):
-        #aqui compruebo si ya existe alguna carrera
+        # Comprobamos si ya hay una carrera activa
         if self.carrera_activa:
-            print("Ya hay una carrera activa")    
+            print("Ya hay una carrera activa.")
             return
-
+        # Registramos el momento en que comienza
         tiempo_actual = time.monotonic()
+        # Activamos la nueva carrera
         self.carrera_activa = True
+        # El taxi empieza parado
         self.en_movimiento = False
+        # Guardamos el nuevo instante de inicio
         self.tiempo_inicio = tiempo_actual
+        # Reiniciamos el momento del último cálculo
         self.ultimo_tiempo = tiempo_actual
+        # US-04: Reiniciamos el precio para la nueva carrera
         self.importe_total = 0.0
-        
+        # US-04: Sumamos una carrera al contador
+        self.numero_carrera += 1
+        # Informamos al taxista
         print("\nCarrera iniciada.")
+        print(f"Número de carrera: {self.numero_carrera}")
         print("Estado: PARADO")
-        print("Importe: 0.00 €")    
+        print("Importe: 0.00 €")
+   
 
     
     # US-02: Calcular el importe acumulado
@@ -155,6 +168,10 @@ class Taxi:
         print("\n=============================")
         print("      CARRERA FINALIZADA")
         print("=============================")
+
+        # US-04: Identificar qué carrera ha terminado
+        print(f"Número de carrera: {self.numero_carrera}")
+
 
         # Mostramos la duración con dos decimales
         print(f"Duración: {duracion:.2f} segundos")

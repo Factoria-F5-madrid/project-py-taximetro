@@ -14,7 +14,8 @@ while True:
 
     # Mostramos las opciones del menú
     print("\n--------- MENÚ ---------")
-    print("1. Iniciar carrera")
+    # US-04: La misma opción sirve para cada nueva carrera
+    print("1. Iniciar carrera / iniciar otra carrera")
     print("2. Taxi en movimiento")
     print("3. Taxi parado")  
     # US-02: Consultar importe
