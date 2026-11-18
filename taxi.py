@@ -128,3 +128,38 @@ class Taxi:
         # Mostramos la información
         print("\nEstado:", estado)
         print(f"Importe actual: {self.importe_total:.2f} €")
+
+
+    # US-03: Finalizar la carrera
+    def finalizar_carrera(self):
+
+        # 1. Comprobamos si existe una carrera activa
+        if not self.carrera_activa:
+            print("No hay ninguna carrera activa.")
+            return
+
+        # 2. Calculamos el importe del último tramo
+        # antes de finalizar la carrera
+        self.calcular_importe()
+
+        # 3. Calculamos la duración total en segundos
+        duracion = self.ultimo_tiempo - self.tiempo_inicio
+
+        # 4. Marcamos la carrera como finalizada
+        self.carrera_activa = False
+
+        # 5. Dejamos el taxi en estado parado
+        self.en_movimiento = False
+
+        # 6. Mostramos el resumen al conductor
+        print("\n=============================")
+        print("      CARRERA FINALIZADA")
+        print("=============================")
+
+        # Mostramos la duración con dos decimales
+        print(f"Duración: {duracion:.2f} segundos")
+
+        # Mostramos el importe total en euros
+        print(f"Importe total: {self.importe_total:.2f} €")
+
+        print("=============================")

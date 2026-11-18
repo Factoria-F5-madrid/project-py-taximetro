@@ -16,9 +16,13 @@ while True:
     print("\n--------- MENÚ ---------")
     print("1. Iniciar carrera")
     print("2. Taxi en movimiento")
-    print("3. Taxi parado")
+    print("3. Taxi parado")  
+    # US-02: Consultar importe
     print("4. Consultar importe")
-    print("5. Salir")
+    # US-03: Finalizar carrera
+    print("5. Finalizar carrera")
+    # Salir de la aplicación
+    print("6. Salir")
     print("------------------------")
 
     # Leemos la opción introducida
@@ -39,11 +43,24 @@ while True:
     # US-02: Consultar cuánto debemos cobrar
     elif opcion == "4":
         taxi.consultar_importe()
-
-    # Salir del programa
+    
+    # US-03: Finalizar la carrera
     elif opcion == "5":
-        print("Gracias por utilizar TaxiTech.")
-        break
+        taxi.finalizar_carrera()
+    
+    
+    # Salir de la aplicación
+    elif opcion == "6":
+
+        # Comprobamos si todavía hay una carrera activa
+        if taxi.carrera_activa:
+            print("Primero debes finalizar la carrera.")
+
+        # Solo salimos cuando no hay carrera activa
+        else:
+            print("Gracias por utilizar TaxiTech.")
+            break
+
 
     # Gestionar opciones incorrectas
     else:
