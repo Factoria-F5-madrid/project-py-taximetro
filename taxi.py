@@ -1,8 +1,10 @@
 import time
 # importo aqui el modulo para medir el tiempo
-
 # Importamos las tarifas desde el archivo tarifas.py
 from tarifas import TARIFA_PARADO, TARIFA_MOVIMIENTO
+# US-05: Importamos la función que guarda carreras en CSV
+from historial import guardar_carrera
+
 
 class Taxi:
 
@@ -143,40 +145,41 @@ class Taxi:
         print(f"Importe actual: {self.importe_total:.2f} €")
 
 
-    # US-03: Finalizar la carrera
+    # US-03 y US-05: Finalizar y guardar una carrera
     def finalizar_carrera(self):
 
-        # 1. Comprobamos si existe una carrera activa
+        # Comprobamos que existe una carrera activa
         if not self.carrera_activa:
             print("No hay ninguna carrera activa.")
             return
 
-        # 2. Calculamos el importe del último tramo
-        # antes de finalizar la carrera
+        # Calculamos los últimos segundos pendientes
         self.calcular_importe()
 
-        # 3. Calculamos la duración total en segundos
+        # Calculamos la duración de la carrera
         duracion = self.ultimo_tiempo - self.tiempo_inicio
 
-        # 4. Marcamos la carrera como finalizada
-        self.carrera_activa = False
+        # US-05: Guardamos la carrera en el archivo CSV
+        try:
+            guardar_carrera(duracion, self.importe_total)
 
-        # 5. Dejamos el taxi en estado parado
+        # Si falla la escritura, informamos del problema
+        except OSError as error:
+            print("No se pudo guardar la carrera:", error)
+            return
+
+        # Solo después de guardar, cerramos la carrera
+        self.carrera_activa = False
         self.en_movimiento = False
 
-        # 6. Mostramos el resumen al conductor
+        # Mostramos el resumen final
         print("\n=============================")
         print("      CARRERA FINALIZADA")
         print("=============================")
 
-        # US-04: Identificar qué carrera ha terminado
         print(f"Número de carrera: {self.numero_carrera}")
-
-
-        # Mostramos la duración con dos decimales
         print(f"Duración: {duracion:.2f} segundos")
-
-        # Mostramos el importe total en euros
         print(f"Importe total: {self.importe_total:.2f} €")
 
         print("=============================")
+

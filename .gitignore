@@ -1,2 +1,7 @@
+# Archivos temporales de Python
 __pycache__/
 *.pyc
+
+# Histórico de carreras generado durante la ejecución
+historial_carreras.csv
+
